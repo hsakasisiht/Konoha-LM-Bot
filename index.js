@@ -327,6 +327,25 @@ async function startBot() {
             const sessionFileCount = sessionManager.getSessionFileCount();
             logger.info(`Session files count: ${sessionFileCount}`);
             
+            // Initialize Google Drive monitoring if configured
+            try {
+                const DriveMonitor = require('./lib/driveMonitor');
+                global.driveMonitor = new DriveMonitor();
+                
+                const config = global.driveMonitor.loadConfig();
+                if (config) {
+                    logger.info('Drive monitoring configuration found, starting automatic monitoring...');
+                    // Auto-start monitoring if previously configured
+                    setTimeout(() => {
+                        global.driveMonitor.startMonitoring(bot).catch(err => {
+                            logger.error('Failed to auto-start Drive monitoring:', err.message);
+                        });
+                    }, 10000); // Start after 10 seconds to ensure bot is fully ready
+                }
+            } catch (error) {
+                logger.debug('Drive monitoring not available:', error.message);
+            }
+            
             // Send message to bot's own number (only in development)
             if (!isProduction) {
                 const botNumber = bot.user.id.split(':')[0] + '@s.whatsapp.net'
@@ -335,7 +354,8 @@ async function startBot() {
                     "✨ *Konoha LM Bot is now online!* ✨",
                     "🤖 Ready to assist you with advanced LM capabilities.",
                     `🌟 Version ${global.version}`,
-                    `📁 Session files: ${sessionFileCount}`
+                    `📁 Session files: ${sessionFileCount}`,
+                    `🔄 Drive monitoring: ${global.driveMonitor && global.driveMonitor.loadConfig() ? 'Configured' : 'Not configured'}`
                 ]
                 
                 try {

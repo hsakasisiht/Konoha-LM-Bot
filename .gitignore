@@ -14,6 +14,9 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 
+# Google Cloud credentials
+google-credentials.json
+
 # WhatsApp session files
 session/
 *.json

@@ -1,21 +1,24 @@
 # Konoha LM Bot
 
-A production-ready WhatsApp bot built with Baileys Pro, featuring advanced session management, Excel analysis capabilities, and comprehensive group administration tools.
+A production-ready WhatsApp bot built with Baileys Pro, featuring advanced session management, Excel analysis capabilities, Google Drive integration, and comprehensive group administration tools.
 
 ## 🚀 Features
 
+- **Google Drive Integration** - Automatic monitoring and downloading of Excel files from shared folders
 - **Advanced Session Management** - Prevents crashes from session file accumulation
 - **Excel Analysis** - Smart Excel file processing with target score analysis
 - **Group Administration** - Ban, warn, kick, freeze features with admin controls
 - **Production Ready** - PM2 integration, logging, and monitoring
 - **Auto-cleanup** - Automatic maintenance of session files and memory
 - **Command System** - Modular command structure with cooldowns and aliases
+- **Real-time Monitoring** - Automatic file detection and forwarding to WhatsApp groups
 
 ## 📋 Requirements
 
 - Node.js 16+ 
 - NPM or Yarn
 - WhatsApp account for linking
+- Google Cloud Project (for Drive integration)
 
 ## 🛠️ Installation
 
@@ -30,7 +33,12 @@ A production-ready WhatsApp bot built with Baileys Pro, featuring advanced sessi
    - Edit `settings.js` with your phone number
    - Update bot name and prefix as needed
 
-3. **Test Installation**
+3. **Google Drive Setup (Optional)**
+   - Follow the detailed setup guide in `DRIVE_SETUP.md`
+   - Create Google Cloud Project and Service Account
+   - Place `google-credentials.json` in the root directory
+
+4. **Test Installation**
    ```bash
    node test-bot.js
    ```
@@ -96,18 +104,47 @@ pm2 start ecosystem.config.js --env production
 ```
 konoha-bot-lm/
 ├── commands/           # Bot commands
+│   ├── drivesetup.js   # Google Drive configuration
+│   ├── drivestart.js   # Start Drive monitoring
+│   ├── drivestop.js    # Stop Drive monitoring
+│   ├── drivestatus.js  # Check Drive status
+│   └── driveclear.js   # Clear processed files
 ├── data/              # Bot data storage
 ├── lib/               # Core libraries
 │   ├── sessionManager.js
 │   ├── productionLogger.js
-│   └── commandHandler.js
+│   ├── commandHandler.js
+│   └── driveMonitor.js # Google Drive monitoring
 ├── logs/              # Application logs
 ├── session/           # WhatsApp session files
 ├── temp/              # Temporary files
 ├── index.js           # Main bot file
 ├── settings.js        # Configuration
-└── ecosystem.config.js # PM2 configuration
+├── ecosystem.config.js # PM2 configuration
+├── DRIVE_SETUP.md     # Google Drive setup guide
+└── google-credentials.json.template # Credentials template
 ```
+
+## 🔄 Google Drive Integration
+
+### Features
+- **Automatic monitoring** of shared Google Drive folders
+- **Excel file detection** (.xlsx, .xls formats)
+- **Real-time downloading** and forwarding to WhatsApp groups
+- **Duplicate prevention** with processed file tracking
+- **Configurable intervals** (default: 1 minute checks)
+
+### Commands
+- `!drivesetup <folder_id> <group_id>` - Configure monitoring
+- `!drivestart` - Start monitoring
+- `!drivestop` - Stop monitoring  
+- `!drivestatus` - Check status and statistics
+- `!driveclear confirm` - Reset processed files
+- `!getgroupid` - Get current group ID (for Drive setup)
+- `!chatid` - Get current chat ID (works in groups and private chats)
+
+### Setup Guide
+See `DRIVE_SETUP.md` for detailed Google Cloud and service account configuration instructions.
 
 ## 🔒 Security Features
 

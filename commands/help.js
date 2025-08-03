@@ -58,6 +58,25 @@ module.exports = {
                 helpMessage += `*╰───────────*\n\n`;
             }
             
+            // Add owner commands section if user is owner
+            const isOwner = global.ownernumber.includes(m.sender.split('@')[0]);
+            if (isOwner && categories.has('owner')) {
+                helpMessage += `*╭─「 Owner Commands 」*\n`;
+                const ownerCommands = categories.get('owner');
+                for (const cmd of ownerCommands) {
+                    helpMessage += `*│ ❒ ${prefix}${cmd.name}*\n`;
+                }
+                helpMessage += `*╰───────────*\n\n`;
+            }
+            
+            // Add Google Drive monitoring info if configured
+            if (global.driveMonitor && global.driveMonitor.loadConfig()) {
+                const status = global.driveMonitor.getStatus();
+                helpMessage += `*🔄 Google Drive Monitor*\n`;
+                helpMessage += `Status: ${status.isMonitoring ? '🟢 Active' : '🔴 Stopped'}\n`;
+                helpMessage += `Files Processed: ${status.processedFilesCount}\n\n`;
+            }
+            
             // Add usage instructions
             helpMessage += `*ℹ️ USAGE INFO*\n`;
             helpMessage += `To get detailed info about a command, use:\n`;
