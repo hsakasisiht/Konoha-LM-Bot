@@ -5,15 +5,42 @@
 const fs = require('fs');
 const path = require('path');
 
-const changelog = `*Konoha LM Bot v1.3.5 Changelog:*
+const changelog = `🚀 *Konoha LM Bot v1.3.1 - Major Update!*
 
-- Group freeze/unfreeze feature
-- Ban/unban system improvements
-- Auto-kick logic enhancements
-- Bug fixes and performance improvements
+✨ *New Features:*
+• 📊 Excel File Automation - Smart file processing
+• 📱 Private Chat Support - All commands also work in DMs
+• 🆔 Chat ID Utilities - Easy group/chat ID commands
+• 🐉 Monster Hunting Reports - Get detailed hunting analytics via DM or group
+• ⚡ Production Optimized - 24/7 stable operation
 
-Use .help to see all commands. and .help [command_name] to see how to use a command.
-`;
+🎯 *Enhanced Commands:*
+• 🛡️ Group Management - Ban, kick, freeze controls
+• ⚠️ Warning System - Track user violations
+• 👑 Owner Controls - Manage group ownership
+• 🎉 Fun Features - Memes, jokes, entertainment
+• 🔧 Utilities - Ping, help, tag all members
+• 📈 Analytics - Monster hunting reports and statistics
+
+🛠️ *Technical Improvements:*
+• Session Management - Prevents crashes
+• Error Recovery - Auto-restart on failures
+• Memory Optimization - Better performance
+• Professional Logging - Enhanced monitoring
+
+📈 *Performance Boosts:*
+• Faster command processing
+• Better connection stability
+• Reduced memory usage
+• Improved response times
+
+🎮 *25+ Commands Available!*
+Use !help to see all commands and !help [command] for usage details.
+
+🐉 *Monster Hunting Reports:*
+Get comprehensive hunting analytics delivered directly to your WhatsApp! Track your progress, view statistics, and receive detailed reports in both groups and private messages.
+
+*Bot is now production-ready with enterprise-grade reliability!*`;
 
 module.exports = {
     name: 'publish',
@@ -40,9 +67,9 @@ module.exports = {
         let sent = 0;
         for (const groupId of groups) {
             try {
-                await bot.sendMessage(groupId, { text: 'Updating bot to latest version 1.3.5...' });
+                await bot.sendMessage(groupId, { text: '🚀 Updating Konoha LM Bot to v1.3.1...' });
                 await new Promise(res => setTimeout(res, 5000));
-                await bot.sendMessage(groupId, { text: '✅ Update successful!' });
+                await bot.sendMessage(groupId, { text: '✅ Update complete! New features ready!' });
                 await new Promise(res => setTimeout(res, 5000));
                 await bot.sendMessage(groupId, { text: changelog });
                 sent++;
